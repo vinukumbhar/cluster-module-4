@@ -209,3 +209,34 @@ exports.updateProductPriorities = async (req, res) => {
   }
 };
 
+const path = require("path");
+
+exports.uploadProductGallery = async (req, res) => {
+  const productId = req.params.id;
+
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: "No media files uploaded." });
+    }
+
+    // Build paths relative to /media/<productId>
+    const mediaFiles = req.files.map((file) => ({
+      url: `/media/${productId}/${file.filename}`,
+      type: file.mimetype.startsWith("video") ? "video" : "image",
+    }));
+
+    const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    // Append to existing gallery or create a new one
+    product.gallery = product.gallery ? [...product.gallery, ...mediaFiles] : mediaFiles;
+
+    await product.save();
+
+    res.status(200).json({ success: true, gallery: product.gallery });
+  } catch (error) {
+    console.error("Error uploading product gallery:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+

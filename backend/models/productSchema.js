@@ -15,7 +15,16 @@ const productSchema = new Schema(
 
     // Images
     thumbnail: { type: String },
-    gallery: [{ type: String }],
+   gallery: [
+  {
+    url: String,
+    type: {
+      type: String,
+      enum: ["image", "video"],
+    },
+  },
+],
+
 
     // Pricing
     mrp: { type: Number },

@@ -34,7 +34,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Box, Typography, Avatar, Tabs, Tab, Paper } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Avatar,
+  Tabs,
+  Tab,
+  Paper,
+  Stack,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { NavLink, Link, Outlet } from "react-router-dom";
 const ProductDetails = () => {
@@ -56,12 +64,13 @@ const ProductDetails = () => {
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2 ,mb:2}} >
-         <Link to="/insights">  <ArrowBackIcon /></Link>
-      
-        <Typography variant="h5" >
-          {product.name}
-        </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+        <Link to="/insights">
+          {" "}
+          <ArrowBackIcon />
+        </Link>
+
+        <Typography variant="h5">{product.name}</Typography>
       </Box>
 
       <Tabs
@@ -78,23 +87,33 @@ const ProductDetails = () => {
         <Tab label="Discount Settings" />
         <Tab label="Nutrition Facts" />
         <Tab label="Storage Information" />
+        <Tab label="Multimedia"/>
       </Tabs>
 
       <Box sx={{ p: 2 }}>
         {tabIndex === 0 && (
-          <>
-            <Typography>
-              <strong>Product Code:</strong> {product.productCode}
-            </Typography>
-
-            <Typography>
-              <strong>Description:</strong> {product.description}
-            </Typography>
-
-            <Typography>
-              <strong>Keywords:</strong> {product.keywords?.join(", ") || "—"}
-            </Typography>
-          </>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <Box>
+              <Avatar
+                variant="square"
+                src={`http://127.0.0.1:8000/${product.thumbnail}`}
+                alt={product.name}
+                sx={{ width: 30, height: 30 }}
+              />
+            </Box>
+            <Box>
+              {" "}
+              <Typography>
+                <strong>Product Code:</strong> {product.productCode}
+              </Typography>
+              <Typography>
+                <strong>Description:</strong> {product.description}
+              </Typography>
+              <Typography>
+                <strong>Keywords:</strong> {product.keywords?.join(", ") || "—"}
+              </Typography>
+            </Box>
+          </Box>
         )}
 
         {tabIndex === 1 && (
@@ -155,13 +174,11 @@ const ProductDetails = () => {
         {tabIndex === 4 && (
           <>
             {product.nutritionFacts ? (
-              Object.entries(product.nutritionFacts).map(
-                ([key, value]) => (
-                  <Typography key={key}>
-                    <strong>{key}:</strong> {value}
-                  </Typography>
-                )
-              )
+              Object.entries(product.nutritionFacts).map(([key, value]) => (
+                <Typography key={key}>
+                  <strong>{key}:</strong> {value}
+                </Typography>
+              ))
             ) : (
               <Typography>No nutrition facts available.</Typography>
             )}
@@ -171,15 +188,83 @@ const ProductDetails = () => {
         {tabIndex === 5 && (
           <>
             <Typography>
-              <strong>Shelf Life:</strong>{" "}
-              {product.shelfLife || "N/A"}
+              <strong>Shelf Life:</strong> {product.shelfLife || "N/A"}
             </Typography>
             <Typography>
-              <strong>Storage:</strong>{" "}
-              {product.storageInstructions || "N/A"}
+              <strong>Storage:</strong> {product.storageInstructions || "N/A"}
             </Typography>
           </>
         )}
+        {tabIndex === 6 && (
+  <>
+    <Box sx={{ mb: 2 }}>
+      <Typography variant="subtitle1" sx={{ mb: 1 }}>
+        Upload Images/Videos
+      </Typography>
+      <input
+        type="file"
+        multiple
+        accept="image/*,video/mp4"
+        onChange={async (e) => {
+          const files = e.target.files;
+          if (!files.length) return;
+
+          const formData = new FormData();
+          for (let i = 0; i < files.length; i++) {
+            formData.append("media", files[i]);
+          }
+
+          try {
+            await axios.post(
+              `http://127.0.0.1:8000/products/${_id}/gallery`,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            );
+
+            // Refresh product data to show updated gallery
+            const res = await axios.get(`http://127.0.0.1:8000/products/${_id}`);
+            setProduct(res.data.product);
+          } catch (err) {
+            console.error("Upload failed:", err);
+          }
+        }}
+      />
+    </Box>
+
+    <Typography variant="h6" sx={{ mb: 1 }}>
+      Gallery
+    </Typography>
+
+    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+      {product.gallery?.length > 0 ? (
+        product.gallery.map((media, index) => (
+          <Box key={index} sx={{ width: 200 }}>
+            {media.type === "image" ? (
+              <img
+                src={`http://127.0.0.1:8000${media.url}`}
+                alt={`media-${index}`}
+                style={{ width: "100%", borderRadius: 4 }}
+              />
+            ) : (
+              <video
+                src={`http://127.0.0.1:8000${media.url}`}
+                controls
+                style={{ width: "100%", borderRadius: 4 }}
+              />
+            )}
+          </Box>
+        ))
+      ) : (
+        <Typography>No media uploaded.</Typography>
+      )}
+    </Box>
+  </>
+)}
+
       </Box>
     </Box>
   );

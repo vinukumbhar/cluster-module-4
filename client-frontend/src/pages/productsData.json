@@ -1,0 +1,69 @@
+[
+  {
+    "title": "Sahakar Bakery Products",
+    "image": "bekariImage",
+    "alt": "Bekari products",
+    "category": "Bekari Products /",
+    "categoryMarathi": "बेकरी प्रोडक्ट",
+    "products": "Milk Bread, Banpav, Donet, Rusk,Milk Toast, Khari ",
+    "productsMarathi": "मिल्क ब्रेड,बनपाव,डोनट,रस्क,मिल्क टोस्ट",
+    "route": "/productgrid",
+    "slug": "bekari-products"
+  },
+  {
+    "title": "Yalgud Dairy Products",
+    "image": "dairyImage",
+    "alt": "Dairy Products",
+    "category": "Dairy Products /",
+    "categoryMarathi": "डेअरी प्रॉडक्ट्स",
+    "products": "Shrikhand, Amrakhand, Fruitkhand, Basundi, Paneer",
+    "productsMarathi": "श्रीखंड, आम्रखंड, फ्रूटखंड, बासुंदी, पनीर ",
+    "route": "/productgrid",
+    "slug": "dairy-products"
+  },
+  {
+    "title": "Sumangal mahila udyog  Products",
+    "image": "namkinImage",
+    "alt": "Namkin products",
+    "category": "Namkin /",
+    "categoryMarathi": "नमकीन",
+    "products": "Chakali, Bhakarwadi,Farsana,Chivada,Ladu ,Shev, Jam",
+    "productsMarathi": "चकली,भाकरवडी,फरसाणा,चिवडाजाम,लाडू,शेव",
+    "route": "/productgrid",
+    "slug": "namkeen-products"
+  },
+  {
+    "title": "Hanuman audyogik products",
+    "image": "hanumanImage",
+    "alt": "Biscuits Products",
+    "category": "Biscuits /",
+    "categoryMarathi": "बिस्किट्स",
+    "products": "Farali , Jam , Coconut ,Chocolate , Mango, Nankatai",
+    "productsMarathi": "फराळी ,जाम ,कोकोनट ,चॉकलेट,मँगो ,नानकटाई",
+    "route": "/productgrid",
+    "slug": "biscuits-products"
+  },
+  {
+    "title": "Hanuman audyogik products",
+    "image": "cakeImage",
+    "alt": "Cake Products",
+    "category": "Cakes /",
+    "categoryMarathi": "केक्स",
+    "products": "Pastry, Cup Cake,Chocolate,Mava,Orange, Mix, Mango, veg & Non-veg",
+    "productsMarathi": "पेस्ट्री, कप केक, चॉकलेट,मावा,ऑरेंज,मिक्स,मँगो,वेज,नॉनव्हेज",
+    "highlight": true,
+    "route": "/productgrid",
+    "slug": "cakes-products"
+  },
+  {
+    "title": "Hanuman audyogik products",
+    "image": "laddu",
+    "alt": "Sweet Products",
+    "category": "Ladu /",
+    "categoryMarathi": "लाडू",
+    "products": "Pastry, Cup Cake,ChocolateCake,",
+    "productsMarathi": "पेस्ट्री, कप केक, चॉकलेट केक,मावा,ऑरेंज",
+    "route": "/productgrid",
+    "slug": "sweet-products"
+  }
+]
